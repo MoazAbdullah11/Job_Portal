@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Catagory;
 
 use App\Models\Product;
@@ -21,30 +23,79 @@ class AdminController extends Controller
 {
     public function view_catagory()
     {
-        $data=catagory::all();
+        // if(Auth::id())
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $data=catagory::all();
 
 
-        return view('admin.catagory', compact('data'));
+            return view('admin.catagory', compact('data'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+      
     }
+
+
+
+
+
 
     public function delete_catagory($id)
     {
-        $data=catagory::find($id);
+
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $data=catagory::find($id);
         $data->delete();
 
 
         return redirect()->back()->with('message','Catagory Deleted Seccessfully');
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+       
     }
+
+
+
+
+
+
+
+
 
     public function add_catagory(Request $request)
     {
-        $data=new catagory;
-        $data->catagory_name=$request->catagory;
 
-        $data->save();
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $data=new catagory;
+            $data->catagory_name=$request->catagory;
+    
+            $data->save();
+    
+    
+            return redirect()->back()->with('message','Catagory added Successfully');
 
 
-        return redirect()->back()->with('message','Catagory added Successfully');
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+        
     }
 
 
@@ -59,47 +110,108 @@ class AdminController extends Controller
 
     public function view_product()
     {
-        $catagory=catagory::all();
-        return view('admin.product', compact('catagory'));
+
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $catagory=catagory::all();
+            return view('admin.product', compact('catagory'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+       
     }
+
+
+
+
+
+
+
+
+
+
 
     public function add_product(Request $request)
     {
-        $product=new product;
-        $product->title=$request->title;
 
-        $product->description=$request->description;
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $product=new product;
+            $product->title=$request->title;
+    
+            $product->description=$request->description;
+    
+            $product->price=$request->price;
+    
+            $product->quantity=$request->quantity;
+    
+            $product->discount_price=$request->dis_price;
+    
+            $product->catagory=$request->catagory;
+    
+            $image=$request->image;
+    
+            $imagename=time().'.'.$image->getClientOriginalExtension();
+    
+            $request->image->move('product',$imagename);
+    
+            $product->image=$imagename;        
+    
+            $product->save();
+    
+    
+            return redirect()->back()->with('message','Product added Successfully');
 
-        $product->price=$request->price;
+        }
 
-        $product->quantity=$request->quantity;
-
-        $product->discount_price=$request->dis_price;
-
-        $product->catagory=$request->catagory;
-
-        $image=$request->image;
-
-        $imagename=time().'.'.$image->getClientOriginalExtension();
-
-        $request->image->move('product',$imagename);
-
-        $product->image=$imagename;        
-
-        $product->save();
-
-
-        return redirect()->back()->with('message','Product added Successfully');
+        else
+        {
+            return redirect('login');
+        }
+        
     }
+
+
+
+
+
+
+
+
+
 
 
 
 
     public function show_product()
     {
-        $product=product::all();
+        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $product=product::all();
         return view('admin.show_product',compact('product'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+       
     }
+
+
+
+
+
+
+
 
 
 
@@ -110,21 +222,79 @@ class AdminController extends Controller
 
 public function delete_product($id)
 {
-    $product = Product::find($id);
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $product = Product::find($id);
     $product->delete();
     return redirect()->back()->with('message', 'Product Deleted Successfully');
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function update_product($id)
 {
-    $product = Product::find($id);
-    $catagory = Catagory::all();
-    return view('admin.update_product', compact('product', 'catagory'));
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $product = Product::find($id);
+            $catagory = Catagory::all();
+            return view('admin.update_product', compact('product', 'catagory'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function update_product_confirm(Request $request, $id)
 {
-    $product = Product::find($id);
+    if(Auth::id()&&(Auth::User()->usertype == 1)) 
+        {
+
+            $product = Product::find($id);
 
     $product->title = $request->title;
     $product->description = $request->description;
@@ -142,20 +312,64 @@ public function update_product_confirm(Request $request, $id)
 
     $product->save();
     return redirect()->back()->with('message', 'Product Updated Successfully');
+           
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 public function order()
 {
-    $order=order::all();
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $order=order::all();
     
-    return view('admin.order',compact('order'));
+            return view('admin.order',compact('order'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+  
 }
+
+
+
+
+
+
+
+
+
 
 public function delivered($id)
 {
-    $order=order::find($id);
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $order=order::find($id);
 
     $order->delivery_status="delivered";
 
@@ -166,7 +380,23 @@ public function delivered($id)
     return redirect()->back(); 
 
 
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,17 +414,53 @@ public function print_pdf($id)
 
 
 
+
+
+
+
+
+
+
+
+
+
 public function send_email($id)
 {
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $order=order::find($id);
+    
+    return view('admin.email_info',compact('order'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
     $order=order::find($id);
     
     return view('admin.email_info',compact('order'));
 
 }
 
+
+
+
+
+
+
+
+
+
+
 public function send_user_email(Request $request,$id)
 {
-    $order=order::find($id);
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $order=order::find($id);
 
     $details= [
         'greeting'=>$request->greeting,
@@ -217,17 +483,60 @@ public function send_user_email(Request $request,$id)
 
     return redirect()->back();
 
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function searchdata(Request $request)
 {
-    $searchText=$request->search;
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $searchText=$request->search;
 
     $order=order::where('name','LIKE',"%$searchText%")->orwhere('phone','LIKE',"%$searchText%")->orwhere('product_title','LIKE',"%$searchText%")->get();
     
     return view('admin.order',compact('order'));
 
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+    
+
 }
+
+
+
+
+
+
+
+
+
+
+
 
     
 }

@@ -2,6 +2,11 @@
 <html>
 
 <head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
     <!-- Basic -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,16 +16,16 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link rel="shortcut icon" href="home/images/favicon.png" type="">
+    <link rel="shortcut icon" href="{{asset('home/images/favicon.png')}}" type="">
     <title>Famms - Fashion HTML Template</title>
     <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css')}}" />
     <!-- font awesome style -->
-    <link href="home/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="{{asset('home/css/font-awesome.min.css')}}" rel="stylesheet" />
     <!-- Custom styles for this template -->
-    <link href="home/css/style.css" rel="stylesheet" />
+    <link href="{{asset('home/css/style.css')}}" rel="stylesheet" />
     <!-- responsive style -->
-    <link href="home/css/responsive.css" rel="stylesheet" />
+    <link href="{{asset('home/css/responsive.css')}}" rel="stylesheet" />
 
     <style type="text/css">
         .center {
@@ -57,6 +62,9 @@
 </head>
 
 <body>
+
+    @include('sweetalert::alert')
+
     <div class="hero_area">
         <!-- header section strats -->
         @include('home.header')
@@ -96,7 +104,7 @@
                         <td><img class="img_deg" src="/product/{{$cart->image}}"></td>
                         <td>
                             
-                            <a class="btn btn-danger" onclick="return confirm('Are Sure you want to remove this product')" href="{{url('/remove_cart',$cart->id)}}">Remove Product</a>
+                            <a class="btn btn-danger" onclick="confirmation(event)" href="{{url('/remove_cart',$cart->id)}}">Remove Product</a>
                         
                         </td>
 
@@ -142,6 +150,53 @@
 
             </p>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script>
+            function confirmation(ev) {
+              ev.preventDefault();
+              var urlToRedirect = ev.currentTarget.getAttribute('href');  
+              console.log(urlToRedirect); 
+              swal({
+                  title: "Are you sure to cancel this product",
+                  text: "You will not be able to revert this!",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+              })
+              .then((willCancel) => {
+                  if (willCancel) {
+      
+      
+                       
+                      window.location.href = urlToRedirect;
+                     
+                  }
+                    
+      
+      
+              });
+      
+              
+          }
+      </script>
+
+
+
+
+
         <!-- jQery -->
         <script src="home/js/jquery-3.4.1.min.js"></script>
         <!-- popper js -->
