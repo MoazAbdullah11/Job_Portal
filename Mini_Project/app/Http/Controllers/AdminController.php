@@ -453,6 +453,40 @@ public function send_email($id)
 
 
 
+
+
+
+public function eemail($id)
+{
+    if(Auth::id() && (Auth::User()->usertype == 1)) 
+        {
+            $order=order::find($id);
+    
+    return view('admin.email_info',compact('order'));
+
+
+        }
+
+        else
+        {
+            return redirect('login');
+        }
+
+    $order=order::find($id);
+    
+    return view('admin.email_info',compact('order'));
+
+}
+
+
+
+
+
+
+
+
+
+
 public function send_user_email(Request $request,$id)
 {
     if(Auth::id() && (Auth::User()->usertype == 1)) 

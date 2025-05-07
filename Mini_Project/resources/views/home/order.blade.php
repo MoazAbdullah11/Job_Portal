@@ -106,6 +106,50 @@
 
 
 
+                    {{-- ========================================================================================= --}}
+
+
+
+                    <td>{{ $order->product_title }}</td>
+
+                    <td>{{ $order->quantity }}</td>
+
+                    <td>{{ $order->price }}</td>
+
+                    <td>{{ $order->payment_status }}</td>
+
+                    <td>{{ $order->delivery_status }}</td>
+
+                    <td>
+
+                        <img height="100" width="100" src="product/{{ $order->image }}">
+
+                    </td>
+
+                    <td>
+                        @if ($order->delivery_status == 'processing')
+                            <a onclick="return confirm('Are You Sure to cancel the Order')" class="btn btn-danger"
+                                href="{{ url('cancel_order', $order->id) }}">Cancel Order</a>
+                        @else
+                            <p style="color: blue;">Canceled Done.</p>
+                        @endif
+
+
+                    </td>
+
+
+
+
+
+
+
+
+
+
+                    {{-- ========================================================================================================= --}}
+
+
+
 
                 </tr>
             @endforeach
