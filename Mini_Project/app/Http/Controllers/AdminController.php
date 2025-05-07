@@ -422,8 +422,6 @@ public function print_pdf($id)
 
 
 
-
-
 public function send_email($id)
 {
     if(Auth::id() && (Auth::User()->usertype == 1)) 
@@ -445,7 +443,6 @@ public function send_email($id)
     return view('admin.email_info',compact('order'));
 
 }
-
 
 
 
@@ -492,8 +489,6 @@ public function send_user_email(Request $request,$id)
         }
 
 }
-
-
 
 
 

@@ -104,8 +104,6 @@
 
 
 
-
-
                     <form action="{{ url('/add_product') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -180,18 +178,8 @@
 
 
 
-
-
-
-
-
             </div>
         </div>
-
-
-
-
-
 
 
 

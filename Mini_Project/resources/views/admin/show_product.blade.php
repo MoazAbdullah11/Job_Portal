@@ -33,7 +33,7 @@
             padding-top: 40px;
         }
 
-        .center{
+        .center {
             margin: auto;
             width: 50%;
             border: 2px solid white;
@@ -41,19 +41,16 @@
             margin-top: 40px;
         }
 
-        .img_size
-        {
+        .img_size {
             width: 150px;
             height: 150px;
         }
 
-        .th_color
-        {
+        .th_color {
             background-color: skyblue;
         }
 
-        .th_deg
-        {
+        .th_deg {
             padding: 30px;
         }
 
@@ -61,9 +58,6 @@
             font-size: 40px;
             padding-bottom: 40px;
         }
-
-        
-       
     </style>
 
 
@@ -128,57 +122,42 @@
                             <th class="th_deg">Product Image</th>
                             <th class="th_deg">Delete</th>
                             <th class="th_deg">Edit</th>
-                            
+
 
                         </tr>
 
                         @foreach ($product as $product)
-                            
+                            <tr>
 
-                        <tr>
+                                <td>{{ $product->title }}</td>
+                                <td>{{ $product->description }}</td>
+                                <td>{{ $product->price }}</td>
+                                <td>{{ $product->discount_price }}</td>
+                                <td>{{ $product->quantity }}</td>
+                                <td>{{ $product->catagory }}</td>
+                                <td>
 
-                            <td>{{$product->title}}</td>
-                            <td>{{$product->description}}</td>
-                            <td>{{$product->price}}</td>
-                            <td>{{$product->discount_price}}</td>
-                            <td>{{$product->quantity}}</td>
-                            <td>{{$product->catagory}}</td>
-                            <td>
+                                    <img class="img_size" src="/product/{{ $product->image }}">
 
-                                <img class="img_size" src="/product/{{$product->image}}">
+                                </td>
 
-                            </td>
-
-                            <td>
-                                <a onclick="return confirm('Are you sure to delete this product?')" 
-                                   class="btn btn-danger" 
-                                   href="{{url('delete_product', $product->id)}}">Delete</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-success" href="{{url('update_product', $product->id)}}">Edit</a>
-                            </td>
+                                <td>
+                                    <a onclick="return confirm('Are you sure to delete this product?')"
+                                        class="btn btn-danger"
+                                        href="{{ url('delete_product', $product->id) }}">Delete</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" href="{{ url('update_product', $product->id) }}">Edit</a>
+                                </td>
 
 
-                        </tr>
-
+                            </tr>
                         @endforeach
 
 
                     </table>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

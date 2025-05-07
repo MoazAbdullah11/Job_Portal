@@ -3,8 +3,6 @@
         <div class="heading_container heading_center">
 
 
-
-
             <div>
 
                 <form action="{{ url('search_product') }}" method="GET">
@@ -28,7 +26,6 @@
                 {{ session()->get('message') }}
             </div>
         @endif
-
 
 
 

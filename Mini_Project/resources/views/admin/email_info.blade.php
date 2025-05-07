@@ -70,7 +70,7 @@
 
                 <h1 style="text-align: center;" font-size: 25px;>Send Email to {{ $order->email }}</h1>
 
-                <form action="{{url('send_user_email',$order->id)}}" method="POST">
+                <form action="{{ url('send_user_email', $order->id) }}" method="POST">
 
                     @csrf
 
@@ -117,12 +117,8 @@
 
 
 
-
-
             </div>
         </div>
-
-
 
 
 
