@@ -49,6 +49,7 @@ class AdminController extends Controller
     public function delete_catagory($id)
     {
 
+        // if(Auth::id())
         if(Auth::id() && (Auth::User()->usertype == 1)) 
         {
             $data=catagory::find($id);
@@ -78,7 +79,8 @@ class AdminController extends Controller
     public function add_catagory(Request $request)
     {
 
-        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        // if(Auth::id())
+        if(Auth::id() && (Auth::User()->usertype ==1)) 
         {
             $data=new catagory;
             $data->catagory_name=$request->catagory;
@@ -111,7 +113,7 @@ class AdminController extends Controller
     public function view_product()
     {
 
-        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        if(Auth::id() && (Auth::User()->usertype ==1)) 
         {
             $catagory=catagory::all();
             return view('admin.product', compact('catagory'));
@@ -139,7 +141,8 @@ class AdminController extends Controller
     public function add_product(Request $request)
     {
 
-        if(Auth::id() && (Auth::User()->usertype == 1)) 
+        // if(Auth::id())
+        if(Auth::id() && (Auth::User()->usertype ==1)) 
         {
             $product=new product;
             $product->title=$request->title;
@@ -222,7 +225,9 @@ class AdminController extends Controller
 
 public function delete_product($id)
 {
-    if(Auth::id() && (Auth::User()->usertype == 1)) 
+
+    // if(Auth::id())
+    if(Auth::id() && (Auth::User()->usertype==1)) 
         {
             $product = Product::find($id);
     $product->delete();
@@ -334,9 +339,6 @@ public function update_product_confirm(Request $request, $id)
 
 
 
-
-
-
 public function order()
 {
     if(Auth::id() && (Auth::User()->usertype == 1)) 
@@ -388,6 +390,8 @@ public function delivered($id)
         }
 
 }
+
+
 
 
 
@@ -456,31 +460,6 @@ public function send_email($id)
 
 
 
-public function eemail($id)
-{
-    if(Auth::id() && (Auth::User()->usertype == 1)) 
-        {
-            $order=order::find($id);
-    
-    return view('admin.email_info',compact('order'));
-
-
-        }
-
-        else
-        {
-            return redirect('login');
-        }
-
-    $order=order::find($id);
-    
-    return view('admin.email_info',compact('order'));
-
-}
-
-
-
-
 
 
 
@@ -510,7 +489,6 @@ public function send_user_email(Request $request,$id)
 
     Notification::send($order,new SendEmailNotification($details));
     
-    // return view('admin.email_info',compact('order'));
 
     return redirect()->back();
 
@@ -539,6 +517,7 @@ public function searchdata(Request $request)
     if(Auth::id() && (Auth::User()->usertype == 1)) 
         {
             $searchText=$request->search;
+            // $searchText=$id->search;
 
     $order=order::where('name','LIKE',"%$searchText%")->orwhere('phone','LIKE',"%$searchText%")->orwhere('product_title','LIKE',"%$searchText%")->get();
     

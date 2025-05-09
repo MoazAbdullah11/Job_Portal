@@ -36,6 +36,8 @@
 </head>
 
 <body>
+
+    
     <div class="hero_area">
         <!-- header section strats -->
         <span style="font-size: 18px">

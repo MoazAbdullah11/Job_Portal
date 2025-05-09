@@ -26,12 +26,12 @@
 
 
 
-        @if (session()->has('message'))
+        {{-- @if (session()->has('message'))
             <div class="alert alert-success">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
                 {{ session()->get('message') }}
             </div>
-        @endif
+        @endif --}}
 
 
 
@@ -70,33 +70,7 @@
 
 
 
-                                        {{-- ======================================================================= --}}
-
-
-
-
-
-                                        <div class="col-md-4">
-
-                                            <input type="number" name="quantity" value="1" min="1"
-                                                style="width: 100px; ">
-
-                                        </div>
-
-
-
-                                        
-
-                                        <div class="col-md-4">
-
-
-                                            <input type="submit" value="Add to Cart">
-
-                                        </div>
-
-
-
-                                        {{-- ============================================================================= --}}
+                                       
 
 
 
