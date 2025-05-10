@@ -22,7 +22,7 @@
 
     <title>Famms - Fashion HTML Template</title>
     <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('home/css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ ssset('home/css/bootstrap.css') }}" />
 
     <!-- font awesome style -->
     <link href="{{ asset('home/css/font-awesome.min.css') }}" rel="stylesheet" />
@@ -34,35 +34,92 @@
     <style type="text/css">
         .center {
             margin: auto;
-            width: 50%;
+            width: 90%;
+            max-width: 1000px;
             text-align: center;
             padding: 30px;
         }
 
-        table,
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
         th,
         td {
             border: 1px solid grey;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
         }
 
         .th_deg {
-            font-size: 30px;
-            padding: 5px;
+            font-size: 20px;
             background: skyblue;
-
         }
 
         .img_deg {
-            height: 200px;
-            width: 200px;
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
         }
 
         .total_deg {
-            fornt_size: 20px;
-            padding: 40px;
+            font-size: 20px;
+            padding: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                border-bottom: 2px solid #ccc;
+            }
+
+            th {
+                background: #f0f0f0;
+                font-size: 18px;
+            }
+
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
+
+            .img_deg {
+                height: 80px;
+                width: 80px;
+            }
+
+            .total_deg {
+                font-size: 18px;
+            }
         }
     </style>
-    
+
+
 </head>
 
 <body>
@@ -102,22 +159,17 @@
 
                 @foreach ($cart as $cart)
                     <tr>
-                        <td>{{ $cart->product_title }}</td>
-                        <td>{{ $cart->quantity }}</td>
-                        <td>${{ $cart->price }}</td>
-                        <td><img class="img_deg" src="/product/{{ $cart->image }}"></td>
-                        <td>
-
+                        <td data-label="Product title">{{ $cart->product_title }}</td>
+                        <td data-label="Product quantity">{{ $cart->quantity }}</td>
+                        <td data-label="Price">${{ $cart->price }}</td>
+                        <td data-label="Image"><img class="img_deg" src="/product/{{ $cart->image }}"></td>
+                        <td data-label="Action">
                             <a class="btn btn-danger" onclick="confirmation(event)"
                                 href="{{ url('/remove_cart', $cart->id) }}">Remove Product</a>
-
                         </td>
-
-
                     </tr>
-
-                    <?php $totalprice = $totalprice + $cart->price; ?>
                 @endforeach
+
 
 
             </table>

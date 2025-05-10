@@ -25,6 +25,161 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f5f5f5;
+                margin: 0;
+                padding: 0;
+            }
+    
+            .comment-section {
+                width: 98%;
+                /* Increase from 95% */
+                max-width: 1500px;
+                /* Increase from 1000px */
+                margin: 30px auto;
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+    
+            .comment-section h1 {
+                text-align: center;
+                margin-bottom: 25px;
+                font-size: 28px;
+            }
+    
+            .comment-form textarea,
+            .replyDiv textarea {
+                width: 100%;
+                height: 120px;
+                padding: 12px;
+                margin-bottom: 15px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 15px;
+                resize: vertical;
+            }
+    
+            .comment-form input[type="submit"],
+            .replyDiv button,
+            .replyDiv a.btn {
+                padding: 10px 20px;
+                background-color: #343a40;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+    
+            .comment-form input[type="submit"]:hover,
+            .replyDiv button:hover,
+            .replyDiv a.btn:hover {
+                background-color: #23272b;
+            }
+    
+            .all-comments {
+                margin-top: 30px;
+            }
+    
+            .all-comments h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+    
+            .comment,
+            .reply {
+                background-color: #f9f9f9;
+                padding: 15px;
+                border-radius: 7px;
+                margin-bottom: 15px;
+                word-wrap: break-word;
+            }
+    
+            .reply {
+                margin-left: 25px;
+                background-color: #eef1f5;
+            }
+    
+            .comment b,
+            .reply b {
+                font-size: 15px;
+                color: #333;
+            }
+    
+            .comment p,
+            .reply p {
+                font-size: 14px;
+                margin: 5px 0;
+            }
+    
+            .reply-link {
+                font-size: 14px;
+                color: #007bff;
+                cursor: pointer;
+                text-decoration: none;
+            }
+    
+            .reply-link:hover {
+                text-decoration: underline;
+            }
+    
+            .replyDiv {
+                margin-left: 25px;
+                margin-top: 10px;
+                display: none;
+            }
+    
+            /* Tablet View */
+            @media (max-width: 991px) {
+                .comment-section {
+                    width: 98%;
+                    padding: 25px;
+                }
+    
+                .reply,
+                .replyDiv {
+                    margin-left: 15px;
+                }
+            }
+    
+            /* Mobile View */
+            @media (max-width: 600px) {
+                .comment-section {
+                    width: 100%;
+                    padding: 20px;
+                }
+    
+                .comment-section h1 {
+                    font-size: 22px;
+                }
+    
+                .comment-form textarea,
+                .replyDiv textarea {
+                    height: 100px;
+                    font-size: 14px;
+                }
+    
+                .comment-form input[type="submit"],
+                .replyDiv button,
+                .replyDiv a.btn {
+                    width: 100%;
+                    font-size: 14px;
+                }
+    
+                .reply,
+                .replyDiv {
+                    margin-left: 10px;
+                }
+            }
+        </style>
+
 </head>
 
 <body>
@@ -55,88 +210,48 @@
 
     {{-- Comment and reply System start here --}}
 
-    <div style="text-align: center;  padding-bottom: 30px;">
+    <div class="comment-section">
+        <h1>Comments</h1>
 
-        <h1 style="font-size: 30px; text-align: center; padding-top: 20px; padding-bottom: 20px;">Comments</h1>
-
-        <form action="{{ url('add_comment') }}" method="POST">
-
+        <form action="{{ url('add_comment') }}" method="POST" class="comment-form">
             @csrf
-
-            <textarea style="height: 150px; width: 600px;" name="comment" placeholder="Comment something here..."></textarea>
-            <br>
-
-
-            <input type="submit" class="btn btn-primary" value="Comment">
-
+            <textarea name="comment" placeholder="Comment something here..."></textarea><br>
+            <input type="submit" value="Comment">
         </form>
 
+        <div class="all-comments">
+            <h2>All Comments</h2>
 
+            @foreach ($comment as $comment)
+                <div class="comment">
+                    <b>{{ $comment->name }}</b>
+                    <p>{{ $comment->comment }}</p>
+                    <a href="javascript:void(0);" class="reply-link" onclick="reply(this)"
+                        data-Commentid="{{ $comment->id }}">Reply</a>
 
+                    @foreach ($reply as $rep)
+                        @if ($rep->comment_id == $comment->id)
+                            <div class="reply">
+                                <b>{{ $rep->name }}</b>
+                                <p>{{ $rep->reply }}</p>
+                                <a class="reply-link" href="javascript:void(0);" onclick="reply(this)"
+                                    data-Commentid="{{ $comment->id }}">Reply</a>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endforeach
 
-    </div>
-
-
-    <div style="padding-left: 20%; ">
-
-        <h1 style="font-size: 20px; padding-bottom: 20px;">All Comments</h1>
-
-
-        @foreach ($comment as $comment)
-            <div>
-
-                <b>{{ $comment->name }}</b>
-                <p>{{ $comment->comment }}</p>
-
-                <a href="javascript::void(0);" onclick="reply(this)" data-Commentid="{{ $comment->id }}">Reply</a>
-
-
-
-                @foreach ($reply as $rep)
-                    @if ($rep->comment_id == $comment->id)
-                        <div style="padding-left: 3%; padding-bottom: 10px; padding-bottom: 10px;">
-
-
-                            <b>{{ $rep->name }}</b>
-                            <p>{{ $rep->reply }}</p>
-
-                            <a style="color: blue;" href="javascript::void(0);" onclick="reply(this)"
-                                data-Commentid="{{ $comment->id }}">Reply</a>
-
-
-
-                        </div>
-                    @endif
-                @endforeach
-
-
-
+            <div class="replyDiv">
+                <form action="{{ url('add_reply') }}" method="POST">
+                    @csrf
+                    <input type="text" id="commentId" name="commentId" hidden>
+                    <textarea name="reply" placeholder="Write something..."></textarea><br>
+                    <button type="submit" class="btn btn-warning">Reply</button>
+                    <a href="javascript:void(0);" class="btn btn-primary" onclick="reply_close(this)">Close</a>
+                </form>
             </div>
-        @endforeach
-
-
-
-
-
-        <div style="display: none;" class="replyDiv">
-
-            <form action="{{ url('add_reply') }}" method="POST">
-
-                @csrf
-
-                <input type="text" id="commentId" name="commentId" hidden>
-
-                <textarea style="height: 100px; width: 500px;" name="reply" placeholder="Write something..."></textarea>
-
-
-                <button type="submit" class="btn btn-warning">Reply</button>
-
-                <a href="javascript::void(0);" class="btn btn-primary" onclick="reply_close(this)">close</a>
-            </form>
-
         </div>
-
-
     </div>
 
 

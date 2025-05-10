@@ -1,3 +1,12 @@
+
+<style>
+
+
+body {
+    overflow-x: hidden;
+}
+
+</style>
 <section class="product_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
@@ -7,20 +16,18 @@
 
 
 
-            <div>
-
-                <form action="{{ url('product_search') }}" method="GET">
-
+            <div class="container mb-4">
+                <form action="{{ url('search_product') }}" method="GET" class="row justify-content-center">
                     @csrf
-
-                    <input style="width: 500px; " type="text" name="search" placeholder="Search for Something">
-
-                    <input type="submit" value="search">
-
+                    <div class="col-12 col-md-8 col-lg-6 mb-2">
+                        <input type="text" name="search" class="form-control" placeholder="Search for Something">
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2">
+                        <input type="submit" class="btn btn-primary w-100" value="Search">
+                    </div>
                 </form>
-
-
             </div>
+            
         </div>
 
 
@@ -124,6 +131,10 @@
             {{-- {!! $product->appends(Request::all())->links() !!} --}}
 
         </div>
+
+
+
+        
         {{-- <div class="btn-box">
             <a href="">
                 View All products

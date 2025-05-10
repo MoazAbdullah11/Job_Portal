@@ -11,41 +11,86 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link rel="shortcut icon" href="{{ asset('home/images/favicon.png') }}" type="">
+    <link rel="shortcut icon" href="{{asset('home/images/favicon.png') }}" type="">
     <title>Famms - Fashion HTML Template</title>
     <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('home/css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css') }}" />
     <!-- font awesome style -->
-    <link href="{{ asset('home/css/font-awesome.min.css') }}" rel="stylesheet" />
+    <link href="{{asset('home/css/font-awesome.min.css') }}" rel="stylesheet" />
     <!-- Custom styles for this template -->
-    <link href="{{ asset('home/css/style.css') }}" rel="stylesheet" />
+    <link href="{{asset('home/css/style.css') }}" rel="stylesheet" />
     <!-- responsive style -->
-    <link href="{{ asset('home/css/responsive.css') }}" rel="stylesheet" />
+    <link href="{{asset('home/css/responsive.css') }}" rel="stylesheet" />
 
 
 
     <style type="text/css">
         .center {
             margin: auto;
-            width: 35%;
-            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
             text-align: center;
+            overflow-x: auto;
+            /* Add horizontal scroll for smaller screens */
         }
 
-        table,
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+            /* Prevent the table from shrinking too much */
+        }
+
         th,
         td {
             border: 1px solid black;
-
+            padding: 10px;
+            text-align: center;
         }
 
         .th_deg {
-
-            padding: 10px;
             background-color: skyblue;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
+        }
 
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 768px) {
+            .th_deg {
+                font-size: 16px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 14px;
+            }
+
+            .center {
+                padding: 10px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .th_deg {
+                font-size: 14px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -59,40 +104,25 @@
 
 
     <div class="center">
-
-
         <table>
             <tr>
                 <th class="th_deg">Product Title</th>
                 <th class="th_deg">Quantity</th>
                 <th class="th_deg">Price</th>
                 <th class="th_deg">Payment Status</th>
-                <th class="th_deg">delivery_status</th>
+                <th class="th_deg">Delivery Status</th>
                 <th class="th_deg">Image</th>
                 <th class="th_deg">Cancel Order</th>
-
-
-
             </tr>
 
             @foreach ($order as $order)
                 <tr>
                     <td>{{ $order->product_title }}</td>
-
                     <td>{{ $order->quantity }}</td>
-
                     <td>{{ $order->price }}</td>
-
                     <td>{{ $order->payment_status }}</td>
-
                     <td>{{ $order->delivery_status }}</td>
-
-                    <td>
-
-                        <img height="100" width="100" src="product/{{ $order->image }}">
-
-                    </td>
-
+                    <td><img height="100" width="100" src="product/{{ $order->image }}"></td>
                     <td>
                         @if ($order->delivery_status == 'processing')
                             <a onclick="return confirm('Are You Sure to cancel the Order')" class="btn btn-danger"
@@ -100,30 +130,10 @@
                         @else
                             <p style="color: blue;">Canceled Done.</p>
                         @endif
-
-
                     </td>
-
-
-
-                  
-
-
-
-
                 </tr>
             @endforeach
-
-
-
-
-
-
-
         </table>
-
-
-
     </div>
 
 
